@@ -1,0 +1,120 @@
+h1{
+  background-color: bisque;
+}
+
+
+
+@media (max-width: 1199.98px) {
+  .container{
+    padding: 10px;
+
+    h1{
+      background-color: aquamarine;
+      font-size: 1.5rem;
+    }
+
+    form{
+      padding: 5px 0;
+      display: flex;
+      justify-content: space-between;
+
+      textarea{
+        width: 84%;
+        height: 60px;
+        border: 1px solid #ccc;
+        resize: none;
+      }
+
+      button{
+        width: 15%;
+        border: 1px solid #ccc;
+      }
+    }
+
+    .tasklist{
+      border: 1px solid #ccc;
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #f3f3f3;
+    }
+
+    .tasklist__header--title{
+      padding: 3px 10px;
+      border-radius: 3px;
+      color:#f3f3f3;
+      font-weight: 500;
+    }
+
+    .todo{
+      display: inline-block;
+      background-color: #F9325C;
+
+    }
+
+    .progress{
+      display: inline-block;
+      background-color: #2F69BC;
+    }
+
+    .done{
+      display: inline-block;
+      background-color: #12B376;
+    }
+
+    progress{
+      width: 100%;
+      height: 7px;
+    }
+
+    .range__minmax{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: .9rem;
+      color:#666;
+    }
+
+    .tasklist__item{
+      margin: 10px 0;
+
+      & p{
+        padding: 10px;
+      }
+
+
+      .tasklist__main--footer{
+        display: flex;
+        justify-content: space-between;
+        padding: 7px;
+        background-color: #E9EAED;
+        border-top: 1px solid #ccc;
+        color:#666;
+      }
+
+    }
+
+    .item__todo{
+      border: 1px solid #ccc;
+      border-left: 2px solid #F9325C;
+    }
+
+    .item__progress{
+      border: 1px solid #ccc;
+      border-left: 2px solid #2F69BC;
+
+    }
+
+    .item__done{
+      border: 1px solid #ccc;
+      border-left: 2px solid #12B376;
+
+    }
+
+
+
+  }
+
+
+
+
+ }
