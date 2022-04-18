@@ -2,81 +2,37 @@
   <header>
     <h1>ToDo v3</h1>
     <form>
-      <textarea name="txt_task" id="txt_task"></textarea>
-      <button type="button">Save</button>
+      <textarea name="txt_task" id="txt_task" [(ngModel)]="todoNewTask" #txt_task="ngModel" required></textarea>
+      <button type="button" (click)="addTodoTask()">Save</button>
     </form>
+    <span *ngIf="txt_task.invalid && (txt_task.dirty || txt_task.touched)">Valor requerido</span>
   </header>
   <main>
     <div class="tasklist">
       <div class="tasklist__header">
-        <div class="tasklist__header--title todo ">To Do (#)</div>
+        <div class="tasklist__header--title todo ">To Do ({{ todoTasks.length }})</div>
         <div class="range">
-          <progress id="file" min="0" max="7" value="2" ></progress>
+          <progress id="file" min="0" max="7" value="{{ todoTasks.length }}" ></progress>
           <div class="range__minmax">
-            <div class="min">Min 1</div>
+            <div class="min">Min 0</div>
             <div class="max">Max 7</div>
           </div>
         </div>
       </div>
       <div class="tasklist__main">
-        <div class="tasklist__item item__todo">
+        <div class="" *ngIf="todoTasks.length === 0">
+          There are no tasks to do yet
+        </div>
+        <div class="tasklist__item item__todo" *ngFor="let todoTask of todoTasks; index as i">
           <p class="">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-            laborum aperiam, aspernatur laudantium quam consequuntur?
+            {{todoTask}}
           </p>
           <div class="tasklist__main--footer">
-            <div class="trash"><fa-icon [icon]="trashcan"></fa-icon></div>
-            <div class="next"><fa-icon [icon]="next"></fa-icon></div>
-          </div>
-        </div>
-        <div class="tasklist__item item__todo">
-          <p  class="">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-            laborum aperiam, aspernatur laudantium quam consequuntur?
-          </p>
-          <div class="tasklist__main--footer">
-            <div class="trash"><fa-icon [icon]="trashcan"></fa-icon></div>
-            <div class="next"><fa-icon [icon]="next"></fa-icon></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tasklist">
-      <div class="tasklist__header">
-        <div class="tasklist__header--title progress">In Progress (#)</div>
-        <div class="range">
-          <progress id="file" min="0" max="7" value="2" ></progress>
-          <div class="range__minmax">
-            <div class="min">Min 1</div>
-            <div class="max">Max 7</div>
-          </div>
-        </div>
-      </div>
-      <div class="tasklist__main">
-        <div class="tasklist__item item__progress">
-          <p class="">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-            laborum aperiam, aspernatur laudantium quam consequuntur?
-          </p>
-          <div class="tasklist__main--footer">
-            <div class="trash"><fa-icon [icon]="trashcan"></fa-icon></div>
-            <div class="nextprev">
-              <div class="prev"><fa-icon [icon]="prev"></fa-icon></div>
-              <div class="next"><fa-icon [icon]="next"></fa-icon></div>
+            <div class="trash" (click)="deleteTaskToDo(i)">
+                <fa-icon [icon]="trashcan"></fa-icon>
             </div>
-          </div>
-        </div>
-        <div class="tasklist__item item__progress">
-          <p  class="">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-            laborum aperiam, aspernatur laudantium quam consequuntur?
-          </p>
-          <div class="tasklist__main--footer">
-            <div class="trash"><fa-icon [icon]="trashcan"></fa-icon></div>
-            <div class="nextprev">
-              <div class="prev"><fa-icon [icon]="prev"></fa-icon></div>
-              <div class="next"><fa-icon [icon]="next"></fa-icon></div>
+            <div class="next">
+              <fa-icon [icon]="next" (click)="moveTodoTask(i)"></fa-icon>
             </div>
           </div>
         </div>
@@ -85,40 +41,58 @@
 
     <div class="tasklist">
       <div class="tasklist__header">
-        <div class="tasklist__header--title done">Done (#)</div>
+        <div class="tasklist__header--title progress">In Progress ({{inprogressTasks.length}})</div>
         <div class="range">
-          <progress id="file" min="0" max="7" value="2" ></progress>
+          <progress id="file" min="0" max="7" value="{{inprogressTasks.length}}" ></progress>
           <div class="range__minmax">
-            <div class="min">Min 1</div>
+            <div class="min">Min 0</div>
             <div class="max">Max 7</div>
           </div>
         </div>
       </div>
       <div class="tasklist__main">
-        <div class="tasklist__item item__done">
+        <div class="" *ngIf="inprogressTasks.length === 0">
+          There are no tasks in progress yet
+        </div>
+        <div class="tasklist__item item__progress" *ngFor="let inprogressTask of inprogressTasks; index as j">
           <p class="">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-            laborum aperiam, aspernatur laudantium quam consequuntur?
+            {{inprogressTask}}
           </p>
           <div class="tasklist__main--footer">
-            <div class="trash"><fa-icon [icon]="trashcan"></fa-icon></div>
+            <div class="trash" (click)="deleteTaskInProgress(j)"><fa-icon [icon]="trashcan"></fa-icon></div>
             <div class="nextprev">
-              <div class="prev"><fa-icon [icon]="prev"></fa-icon></div>
-              <div class="next"><fa-icon [icon]="next"></fa-icon></div>
+              <div class="prev" (click)="moveTodo(j)"><fa-icon [icon]="prev"></fa-icon></div>
+              <div class="next" (click)="moveDone(j)"><fa-icon [icon]="next"></fa-icon></div>
             </div>
           </div>
         </div>
-        <div class="tasklist__item item__done">
-          <p  class="">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-            laborum aperiam, aspernatur laudantium quam consequuntur?
+      </div>
+    </div>
+
+    <div class="tasklist">
+      <div class="tasklist__header">
+        <div class="tasklist__header--title done">Done ({{doneTasks.length}})</div>
+        <div class="range">
+          <progress id="file" min="0" max="7" value="{{doneTasks.length}}" ></progress>
+          <div class="range__minmax">
+            <div class="min">Min 0</div>
+            <div class="max">Max 7</div>
+          </div>
+        </div>
+      </div>
+      <div class="tasklist__main">
+        <div class="" *ngIf="doneTasks.length === 0">
+          There are no done tasks yet
+        </div>
+        <div class="tasklist__item item__done" *ngFor="let doneTask of doneTasks; index as k">
+          <p class="">
+            {{doneTask}}
           </p>
           <div class="tasklist__main--footer">
-            <div class="trash"><fa-icon [icon]="trashcan"></fa-icon></div>
-            <div class="nextprev">
-              <div class="prev"><fa-icon [icon]="prev"></fa-icon></div>
-              <div class="next"><fa-icon [icon]="next"></fa-icon></div>
-            </div>
+            <div class="trash" (click)="deleteTask(k)"><fa-icon [icon]="trashcan"></fa-icon></div>
+
+              <div class="prev" (click)="moveInProgress(k)"><fa-icon [icon]="prev"></fa-icon></div>
+
           </div>
         </div>
       </div>
